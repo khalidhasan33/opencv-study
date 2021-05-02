@@ -38,8 +38,6 @@ des_xor = cv2.putText(des_xor, 'XOR Bitwise', org, font,
                       fontScale, color, thickness, cv2.LINE_AA)
 
 # the window showing output image
-# with the Bitwise AND operation
-# on the input images
 cv2.namedWindow('arithmetic-bitwise', cv2.WINDOW_NORMAL)
 cv2.imshow('image1', des_and)
 cv2.imshow('image2', des_or)
