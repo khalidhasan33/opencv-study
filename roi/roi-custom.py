@@ -32,6 +32,13 @@ def draw_roi(event, x, y, flags, param):
 
         roi = cv2.bitwise_and(mask2, img)
         cv2.imshow("ROI", roi)
+
+        mask2 = cv2.cvtColor(mask2, cv2.COLOR_BGR2GRAY)
+
+        not_zero = cv2.countNonZero(mask2)
+
+        print(not_zero)
+
         cv2.waitKey(0)
 
     if len(pts) > 0:
