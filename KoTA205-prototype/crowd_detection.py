@@ -1,6 +1,4 @@
 import cv2
-import joblib
-import numpy as np
 
 pts = []  # for storing points
 

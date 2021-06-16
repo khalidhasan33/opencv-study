@@ -1,8 +1,7 @@
 import cv2
-import imutils
 import numpy as np
 import random
-from crowd_detection import CrowdDetection, pts
+from crowd_detection import CrowdDetection
 
 # Definition
 crowd = CrowdDetection
