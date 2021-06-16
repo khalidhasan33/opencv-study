@@ -34,36 +34,15 @@ while video_cap.isOpened():
 
         # Press a on keyboard to create ROI
         if key == ord("a"):
-            print("[INFO] Click the left button: select the point")
-            print("[INFO] Click the right button: delete the last selected point")
-            print("[INFO] Click the middle button: determine the ROI area")
-            print("[INFO] Press ‘a’ to determine the selection area")
-            print("[INFO] Press ESC to quit")
-
-            while True:
-                key = cv2.waitKey(1) & 0xFF
-                # Create windows and bind windows to callback functions
-                cv2.setMouseCallback('system', crowd.draw_roi, frame)
-
-                if key == ord("a") and len(pts) >= 4:
-                    using_roi = True
-                    cv2.setMouseCallback('system', lambda *args: None)
-                    break
-
-                if key == 27:
-                    using_roi = False
-                    cv2.setMouseCallback('system', lambda *args: None)
-                    break
+            using_roi = crowd.define_roi(frame)
 
         # Press Esc on keyboard to  exit
         if key == 27:
             break
 
-    # Break the loop
     else:
         break
 
 # When everything done, release the video capture object
 video_cap.release()
-# Closes all the frames
 cv2.destroyAllWindows()
