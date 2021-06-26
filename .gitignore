@@ -4,3 +4,15 @@
 .DS_Store
 
 KoTA205-prototype/resource/
+
+*.pyc
+
+*.mp4
+
+*.names
+
+*.jpg
+
+*.cfg
+
+*.weights
