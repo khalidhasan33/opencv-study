@@ -20,13 +20,22 @@ class CrowdDetection:
         cv2.imshow('system', img2)
 
     @staticmethod
-    def occupancy_counting(frame, mask):
+    def occupancy_counting(mask, mask2):
         mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
+        mask2 = cv2.cvtColor(mask2, cv2.COLOR_BGR2GRAY)
         occupancy_pixel = cv2.countNonZero(mask)
-        all_pixel = frame.shape[0] * frame.shape[1]
+
+        if len(pts) > 0:
+            all_pixel = cv2.countNonZero(mask2)
+        else:
+            all_pixel = mask2.shape[0] * mask2.shape[1]
+
         percentage = (occupancy_pixel / all_pixel) * 100
         percentage = round(percentage)
         percentage = str(percentage)
+        # Debug
+        # print(occupancy_pixel)
+        # print(all_pixel)
 
         return percentage
 
@@ -43,9 +52,12 @@ class CrowdDetection:
             # Create windows and bind windows to callback functions
             cv2.setMouseCallback('system', CrowdDetection.draw_roi, frame)
 
-            if key == ord("a") and len(pts) >= 4:
+            if key == ord("a") and (len(pts) >= 4 or len(pts) == 0):
                 cv2.setMouseCallback('system', lambda *args: None)
-                return True
+                if len(pts) > 0:
+                    return True
+                else:
+                    return False
 
             if key == 27:
                 cv2.setMouseCallback('system', lambda *args: None)
@@ -57,7 +69,7 @@ class CrowdDetection:
         if self == cv2.EVENT_LBUTTONDOWN and len(pts) <= 8:  # Left click, select point
             pts.append((x, y))
 
-        if self == cv2.EVENT_RBUTTONDOWN:  # Right click to cancel the last selected point
+        if self == cv2.EVENT_RBUTTONDOWN and len(pts) > 0:  # Right click to cancel the last selected point
             pts.pop()
 
         if len(pts) > 0:
