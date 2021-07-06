@@ -16,3 +16,5 @@ KoTA205-prototype/resource/
 *.cfg
 
 *.weights
+
+*.log
