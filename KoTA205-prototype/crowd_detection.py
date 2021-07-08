@@ -4,6 +4,7 @@ import numpy as np
 import logging
 
 from datetime import datetime
+
 from win10toast import ToastNotifier
 
 pts = []  # for storing points
@@ -93,7 +94,7 @@ class CrowdDetection:
 
             cv2.line(img=img_show, pt1=pts[0], pt2=pts[i + 1], color=(255, 0, 0), thickness=2)
 
-        cv2.imshow('system', img_show)
+        return img_show
 
     @staticmethod
     def draw_bounding_box(boxes, people, frame):
@@ -127,7 +128,9 @@ class CrowdDetection:
                 cv2.circle(img2, pts[i], 5, (0, 0, 255), -1)  # x ,y is the coordinates of the mouse click place
                 cv2.line(img=img2, pt1=pts[i], pt2=pts[i + 1], color=(255, 0, 0), thickness=2)
 
-        cv2.imshow('system', img2)
+        imgbytes = cv2.imencode(".png", img2)[1].tobytes()
+        window["-IMAGE-"].update(data=imgbytes)
+        #cv2.imshow('system', img2)
 
     @staticmethod
     def occupancy_counting(mask, mask2):
