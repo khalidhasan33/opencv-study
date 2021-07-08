@@ -12,9 +12,7 @@ yolo_cfg_path = r'C:\Users\Wangoo\source\repos\opencv-study\KoTA205-prototype\yo
 image_path = r'C:\Users\Wangoo\source\repos\opencv-study\KoTA205-prototype\crowd-image'
 log_path = r'C:\Users\Wangoo\source\repos\opencv-study\KoTA205-prototype\crowd-log'
 
-
-
-def crowd_detection():
+def crowd_detection(threshold):
 
     # Var definition
     crowd = CrowdDetection
@@ -28,27 +26,25 @@ def crowd_detection():
     
     sg.theme("DarkGrey")
 
-    col1 = sg.Text("Occupancy : ", key="-OCCUP-")
-    col2 = sg.Text("Crowd Estimation : ", key="-CROWD-")
+    col1 = sg.Text("Occupancy (%) : ", key="-OCCUP-") 
+    col2 = sg.Text("", key="-OCCUP1-", size=(3,1))
+    col3 = sg.Text("Crowd Estimation : ", key="-CROWD-") 
+    col4 = sg.Text("", key="-CROWD1-", size=(3,1))
     btn1 = sg.Button("Create ROI",button_color=('black', 'white'), size=(10, 1), key="-CREATE-", visible=True)
     btn2 = sg.Button("Finish Create ROI",button_color=('black', 'white'), size=(15, 1), key="-FINISH-", visible=False)
 
     # Define the window layout
     layout = [
-        [sg.Column([[col1]]), sg.Column([[col2]]), sg.Column([[btn1, btn2]])],
+        [sg.Column([[col1, btn2]]), sg.Column([[col2]]), sg.Column([[col3]]), sg.Column([[col4]]), sg.Column([[btn1]])],
         [sg.Column([[sg.Image(key="-IMAGE-")]], justification='center')],
         [sg.Button("Exit",button_color=('black', 'white'), size=(10, 1))],
     ]
-
-    print ('layout jalan')
     
     # Create the window and show it without the plot
     window = sg.Window("Nama Sistem", layout, resizable=True, finalize=True)
     window.Maximize()
 
     video_cap = cv2.VideoCapture(video_path)
-
-    print ('video cap jalan')
     
     # Set Yolo
     net = cv2.dnn.readNet(yolo_weight_path, yolo_cfg_path)
@@ -59,17 +55,7 @@ def crowd_detection():
     layer_names = net.getLayerNames()
     output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 
-    print ('yolo jalan')
-
-#    Check if camera opened successfully
-#    if video_cap.isOpened():
-#        # Input ROI
-#        threshold = input("Please defined the threshold you want? ")
-#        threshold = int(threshold)
-#    else:
-#        print("Failed opening video stream or file")
     # Read until video is completed
-    
     while video_cap.isOpened():
         event, values = window.read(timeout=20)
         if event in(None, 'Exit'):
@@ -89,7 +75,6 @@ def crowd_detection():
             # Resize Video
             frame = cv2.resize(frame,(1600, 900),fx=0,fy=0, interpolation = None)
 
-            print ('renew jalan')
             if using_roi:
                 points = np.array(pts, np.int32)
                 points = points.reshape((-1, 1, 2))
@@ -102,14 +87,10 @@ def crowd_detection():
 
             # Detection object
             people = crowd.detection_object(net, output_layers, boxes, threshold_confident, frame_to_detect)
-
-            print ('people jalan')
             # Draw object detected on mask
             crowd.draw_object_detected(boxes, people, mask)
-            print ('crowd draw jalan')
             # Show FPS
             crowd.show_fps(frame_id, frame)
-            print ('crowd jalan')
 
             
             if using_roi:
@@ -117,33 +98,38 @@ def crowd_detection():
 
             # Crowd counting
             percentage = crowd.occupancy_counting(mask, mask2)
-
-            print ('percentage jalan')
+            window["-OCCUP1-"].update(value=percentage)
+            print (percentage)
             # Debug
             # print(percentage)
             # print(threshold)
 
             # Person counting
             person_detected = crowd.people_counting(people)
+            window["-CROWD1-"].update(value=person_detected)
             # Display frame
             frame = crowd.display_frame(using_roi, frame)
             crowd.draw_bounding_box(boxes, people, frame)
             #crowd.display_frame(using_roi, frame)
             # Create report
-            #report_duration = crowd.create_report(report_duration, interval, image_path, log_path, percentage,
-            #                                  threshold, person_detected, frame)
+            report_duration = crowd.create_report(report_duration, interval, image_path, log_path, percentage,
+                                              threshold, person_detected, frame)
             
             if event == '-CREATE-':
                 window.Element('-FINISH-').Update(visible=True)
                 window.Element('-OCCUP-').Update(visible=False)
+                window.Element('-OCCUP1-').Update(visible=False)
                 window.Element('-CROWD-').Update(visible=False)
+                window.Element('-CROWD1-').Update(visible=False)
                 window.Element('-CREATE-').Update(visible=False)
-                using_roi = crowd.define_roi(frame)
+                #using_roi = crowd.define_roi(frame)
 
             if event == '-FINISH-':
                 window.Element('-FINISH-').Update(visible=False)
                 window.Element('-OCCUP-').Update(visible=True)
+                window.Element('-OCCUP1-').Update(visible=True)
                 window.Element('-CROWD-').Update(visible=True)
+                window.Element('-CROWD1-').Update(visible=True)
                 window.Element('-CREATE-').Update(visible=True)
 
             # Press a on keyboard to create ROI
@@ -167,8 +153,8 @@ def crowd_detection():
 
 def main():
     layout = [
-        [sg.Text("Input Threshold", justification='center')],
-        [sg.InputText(justification='center', key='-THRS-')],
+        [sg.Text("Input Threshold (%)", justification='center')],
+        [sg.InputText(justification='center', key='-INPUT-')],
         [sg.Button("OK", button_color=('black', 'white'), size=(10, 1), key="-OK-"), 
          sg.Button("Exit",button_color=('black', 'white'), size=(10, 1))],
     ]
@@ -181,18 +167,21 @@ def main():
         if event == "Exit" or event == sg.WIN_CLOSED:
             break
         if event == "-OK-":
-            value = (values['-THRS-'])
+            value = (values['-INPUT-'])
             if value == '':
                 print('Invalid, Input must be number')
             else:
                 try:
                     threshold = int(value)
-                    if threshold < 0:
-                        threshold = abs(threshold)
-                    print(threshold)
-                    window.close()
-                    crowd_detection()
-                except:
+                    if threshold > 100:
+                        print('Invalid, Input must be less than 100')
+                    else:
+                        if threshold < 0:
+                            threshold = abs(threshold)
+                        print(threshold)
+                        window.close()
+                        crowd_detection(threshold)
+                except ValueError:
                     print('Invalid, Input must be number')
 
     window.close()
