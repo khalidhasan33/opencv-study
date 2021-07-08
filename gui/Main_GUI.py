@@ -22,7 +22,7 @@ def detect():
     window = sg.Window("Nama Sistem", layout, resizable=True, finalize=True)
     window.Maximize()
 
-    cap = cv2.VideoCapture(0)
+    cap = video_cap
 
 
     while True:
@@ -34,6 +34,7 @@ def detect():
             window.Element('-OCCUP-').Update(visible=False)
             window.Element('-CROWD-').Update(visible=False)
             window.Element('-CREATE-').Update(visible=False)
+
 
 
         if event == '-FINISH-':

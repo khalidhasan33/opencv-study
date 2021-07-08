@@ -1,8 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\gui"
+    "\\gui",
+    "\\KoTA205-prototype",
+    "\\roi"
   ],
-  "SelectedNode": "\\gui\\Main_GUI.py",
+  "SelectedNode": "\\KoTA205-prototype\\system.py",
   "PreviewInSolutionExplorer": false
 }

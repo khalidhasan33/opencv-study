@@ -5,9 +5,9 @@ import time
 from crowd_detection import CrowdDetection, pts
 
 # Definition
-video_path = "resource/video.mp4"
-yolo_weight_path = "yolo/yolo-v4-obj.weights"
-yolo_cfg_path = "yolo/yolo-v4-obj.cfg"
+video_path = "C:/Users/Wangoo/source/repos/opencv-study/KoTA205-prototype/resource/videoplayback.mp4"
+yolo_weight_path = "C:/Users/Wangoo/source/repos/opencv-study/KoTA205-prototype/yolo/yolo-obj_1000.weights"
+yolo_cfg_path = "C:/Users/Wangoo/source/repos/opencv-study/KoTA205-prototype/yolo/yolov4.cfg"
 
 crowd = CrowdDetection
 font = cv2.FONT_HERSHEY_PLAIN
