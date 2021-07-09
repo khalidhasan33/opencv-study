@@ -9,7 +9,6 @@ from win10toast import ToastNotifier
 pts = []  # for storing points
 starting_time_system = time.time()
 
-
 class CrowdDetection:
 
     @staticmethod
@@ -37,7 +36,8 @@ class CrowdDetection:
             # Create windows and bind windows to callback functions
             cv2.setMouseCallback('system', CrowdDetection.draw_roi, frame)
 
-            if key == ord("a") and (len(pts) >= 4 or len(pts) == 0):
+            #if event == '-FINISH-' and (len(pts) >= 4 or len(pts) == 0):
+            if key == 'a' and (len(pts) >= 4 or len(pts) == 0):
                 cv2.setMouseCallback('system', lambda *args: None)
                 if len(pts) > 0:
                     return True
@@ -163,7 +163,7 @@ class CrowdDetection:
         toaster = ToastNotifier()
         toast_title = "Warning!!"
         toast_description = "System detects the occurrence of crowd"
-        toaster.show_toast(toast_title, toast_description)
+        toaster.show_toast(toast_title, toast_description, icon_path=None)
 
     @staticmethod
     def show_fps(frame_id, frame):
