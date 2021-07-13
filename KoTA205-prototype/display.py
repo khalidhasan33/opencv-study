@@ -7,17 +7,17 @@ starting_time_system = time.time()
 class Display:
 
     @staticmethod
-    def display_frame(using_roi, pts, img):
-        img_show = img.copy()
+    def display_frame(using_roi, pts, frame):
+        frame_show = frame.copy()
         if using_roi:
             # Draw line ROI
             for i in range(len(pts) - 1):
-                cv2.circle(img_show, pts[i], 5, (0, 0, 255), -1)  # x ,y is the coordinates of the mouse click place
-                cv2.line(img=img_show, pt1=pts[i], pt2=pts[i + 1], color=(255, 0, 0), thickness=2)
+                cv2.circle(frame_show, pts[i], 5, (0, 0, 255), -1)  # x ,y is the coordinates of the mouse click place
+                cv2.line(img=frame_show, pt1=pts[i], pt2=pts[i + 1], color=(255, 0, 0), thickness=2)
 
-            cv2.line(img=img_show, pt1=pts[0], pt2=pts[i + 1], color=(255, 0, 0), thickness=2)
+            cv2.line(img=frame_show, pt1=pts[0], pt2=pts[i + 1], color=(255, 0, 0), thickness=2)
 
-        cv2.imshow('system', img_show)
+        cv2.imshow('system', frame_show)
 
     @staticmethod
     def show_fps(frame_id, frame):

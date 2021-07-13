@@ -15,26 +15,26 @@ def define_threshold(layout):
         if event == "-OK-":
             value = (values['-INPUT-'])
             try:
-                threshold = int(value)
+                threshold_value = int(value)
             except ValueError:
                 print('Invalid, Input must be number')
                 continue
 
-            if threshold < 0:
+            if threshold_value < 0:
                 print("Sorry, your response must not be negative.")
                 continue
 
-            if threshold >= 100:
+            if threshold_value >= 100:
                 print("Sorry, should be below or equal 100")
                 continue
             else:
                 window.close()
-                return threshold
+                return threshold_value
 
         if event == "Exit" or event == sg.WIN_CLOSED:
             window.close()
-            threshold = 'exit'
-            return threshold
+            threshold_value = 'exit'
+            return threshold_value
 
 
 def main():
