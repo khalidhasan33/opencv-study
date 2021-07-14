@@ -16,7 +16,7 @@ class UserInterface:
     @staticmethod
     def layout_crowd_detection():
         # GUI Layout
-        #sg.theme("DarkGrey")
+        sg.theme("DarkGrey")
         col1 = sg.Text("Threshold (%)       : ", key="-THRESHOLD-")
         col2 = sg.Text("", key="-THRESHOLD1-", size=(3, 1))
         col3 = sg.Text("Occupancy (%)       : ", key="-OCCUPY-")
