@@ -9,11 +9,11 @@ from report import Report
 from roi import Roi
 
 # Path definition
-video_path = r'C:\Users\User\Documents\Git\opencv-study\KoTA205-prototype\resource\nani.mp4'
-yolo_weight_path = r'C:\Users\User\Documents\Git\opencv-study\KoTA205-prototype\yolo\yolov4-obj_final.weights'
-yolo_cfg_path = r'C:\Users\User\Documents\Git\opencv-study\KoTA205-prototype\yolo\yolov4-obj.cfg'
-image_path = r'C:\Users\User\Documents\Git\opencv-study\KoTA205-prototype\crowd-image'
-log_path = r'C:\Users\User\Documents\Git\opencv-study\KoTA205-prototype\crowd-log'
+video_path = r'C:\Users\Wangoo\source\repos\opencv-study\KoTA205-prototype\resource\nani.mp4'
+yolo_weight_path = r'C:\Users\Wangoo\source\repos\opencv-study\KoTA205-prototype\yolo\yolov4-obj_final.weights'
+yolo_cfg_path = r'C:\Users\Wangoo\source\repos\opencv-study\KoTA205-prototype\yolo\yolov4-obj.cfg'
+image_path = r'C:\Users\Wangoo\source\repos\opencv-study\KoTA205-prototype\crowd-image'
+log_path = r'C:\Users\Wangoo\source\repos\opencv-study\KoTA205-prototype\crowd-log'
 
 
 class Detection:
@@ -48,7 +48,7 @@ class Detection:
         layer_names = net.getLayerNames()
         output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
         # Set window
-        window = sg.Window("Crowd detection system ", layout, size=(300, 350), resizable=False, finalize=True)
+        window = sg.Window("Crowd detection system ", layout, size=(300, 380), resizable=False, finalize=True)
 
         # Read until video is completed
         while video_cap.isOpened():
@@ -92,7 +92,7 @@ class Detection:
 
                 # Define ROI
                 if create_roi:
-                    using_roi = roi.define_roi(window, pts, frame, percentage, person_detected)
+                    using_roi = roi.define_roi(window, pts, frame, percentage, person_detected, threshold)
                     create_roi = not create_roi
 
                 # Show FPS
@@ -105,6 +105,7 @@ class Detection:
                                                        threshold, person_detected, frame)
 
                 # Window update
+                window["-THRESHOLD1-"].update(value=threshold)
                 window["-CROWD1-"].update(value=person_detected)
                 window["-OCCUPY1-"].update(value=percentage)
 
