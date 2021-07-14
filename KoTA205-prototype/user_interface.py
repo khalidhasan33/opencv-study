@@ -16,11 +16,13 @@ class UserInterface:
     @staticmethod
     def layout_crowd_detection():
         # GUI Layout
-        sg.theme("DarkGrey")
-        col1 = sg.Text("Occupancy (%)       : ", key="-OCCUPY-")
-        col2 = sg.Text("", key="-OCCUPY1-", size=(3, 1))
-        col3 = sg.Text("Crowd Estimation    : ", key="-CROWD-")
-        col4 = sg.Text("", key="-CROWD1-", size=(3, 1))
+        #sg.theme("DarkGrey")
+        col1 = sg.Text("Threshold (%)       : ", key="-THRESHOLD-")
+        col2 = sg.Text("", key="-THRESHOLD1-", size=(3, 1))
+        col3 = sg.Text("Occupancy (%)       : ", key="-OCCUPY-")
+        col4 = sg.Text("", key="-OCCUPY1-", size=(3, 1))
+        col5 = sg.Text("Crowd Estimation    : ", key="-CROWD-")
+        col6 = sg.Text("", key="-CROWD1-", size=(3, 1))
         btn1 = sg.Button("Create ROI", button_color=('black', 'white'), size=(10, 1), key="-CREATE-", visible=True)
         btn2 = sg.Button("Finish Create ROI", button_color=('black', 'white'), size=(15, 1), key="-FINISH-",
                          visible=False)
@@ -32,6 +34,7 @@ class UserInterface:
         layout = [
             [sg.Column([[col1]]), sg.Column([[col2]])],
             [sg.Column([[col3]]), sg.Column([[col4]])],
+            [sg.Column([[col5]]), sg.Column([[col6]])],
             [sg.Column([[btn1, btn2]]), sg.Column([[btn3, btn4]])],
             [sg.Column([[sg.Text("", size=(1, 10))]])],
             [sg.Column([[btn5]])],

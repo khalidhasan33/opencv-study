@@ -4,10 +4,11 @@ import cv2
 class Roi:
 
     @staticmethod
-    def define_roi(window, pts, frame, percentage, person_detected):
+    def define_roi(window, pts, frame, percentage, person_detected, threshold):
         window.Element('-FINISH-').Update(visible=True)
         window["-OCCUPY1-"].update(value='-')
         window["-CROWD1-"].update(value='-')
+        window["-THRESHOLD1-"].update(value='-')
         window.Element('-CREATE-').Update(visible=False)
         window.Element('-BOUND-').Update(visible=False)
         window.Element('-EXIT-').Update(visible=False)
@@ -24,6 +25,7 @@ class Roi:
                 window.Element('-FINISH-').Update(visible=False)
                 window["-OCCUPY1-"].update(value=percentage)
                 window["-CROWD1-"].update(value=person_detected)
+                window["-THRESHOLD1-"].update(value=threshold)
                 window.Element('-CREATE-').Update(visible=True)
                 window.Element('-BOUND-').Update(visible=True)
                 window.Element('-EXIT-').Update(visible=True)
