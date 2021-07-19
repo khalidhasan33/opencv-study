@@ -24,7 +24,7 @@ def define_threshold(layout):
                 print("Sorry, your response must not be negative.")
                 continue
 
-            if threshold_value >= 100:
+            if threshold_value > 100:
                 print("Sorry, should be below or equal 100")
                 continue
             else:

@@ -59,7 +59,7 @@ class Roi:
 
     def select_roi(self, x, y, flags, pts):
 
-        if self == cv2.EVENT_LBUTTONDOWN and len(pts) <= 8:  # Left click, select point
+        if self == cv2.EVENT_LBUTTONDOWN and len(pts) < 8:  # Left click, select point
             pts.append((x, y))
 
         if self == cv2.EVENT_RBUTTONDOWN and len(pts) > 0:  # Right click to cancel the last selected point
