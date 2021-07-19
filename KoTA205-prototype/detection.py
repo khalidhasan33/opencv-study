@@ -9,11 +9,11 @@ from report import Report
 from roi import Roi
 
 # Path definition
-video_path = r'C:\Users\Wangoo\source\repos\opencv-study\KoTA205-prototype\resource\nani.mp4'
-yolo_weight_path = r'C:\Users\Wangoo\source\repos\opencv-study\KoTA205-prototype\yolo\yolov4-obj_final.weights'
-yolo_cfg_path = r'C:\Users\Wangoo\source\repos\opencv-study\KoTA205-prototype\yolo\yolov4-obj.cfg'
-image_path = r'C:\Users\Wangoo\source\repos\opencv-study\KoTA205-prototype\crowd-image'
-log_path = r'C:\Users\Wangoo\source\repos\opencv-study\KoTA205-prototype\crowd-log'
+video_path = r'C:\Users\User\Documents\Git\opencv-study\KoTA205-prototype\resource\15m-footage.mp4'
+yolo_weight_path = r'C:\Users\User\Documents\Git\opencv-study\KoTA205-prototype\yolo\yolov4-obj_final.weights'
+yolo_cfg_path = r'C:\Users\User\Documents\Git\opencv-study\KoTA205-prototype\yolo\yolov4-obj.cfg'
+image_path = r'C:\Users\User\Documents\Git\opencv-study\KoTA205-prototype\crowd-image'
+log_path = r'C:\Users\User\Documents\Git\opencv-study\KoTA205-prototype\crowd-log'
 
 
 class Detection:
@@ -59,6 +59,7 @@ class Detection:
             if ret:
                 # Var definition
                 boxes = []
+                confidences = []
                 mask = np.zeros((frame.shape[0], frame.shape[1], 3), np.uint8)
                 mask2 = np.zeros((frame.shape[0], frame.shape[1], 3), np.uint8)
 
@@ -73,7 +74,8 @@ class Detection:
                     frame_to_detect = frame
 
                 # Detection object
-                people = Detection.detection_object(net, output_layers, boxes, threshold_confident, frame_to_detect)
+                people = Detection.detection_object(net, output_layers, boxes, confidences, threshold_confident,
+                                                    frame_to_detect)
                 # Draw object detected on mask
                 frame_manipulation.draw_object_detected(boxes, people, mask)
 
@@ -88,7 +90,7 @@ class Detection:
 
                 # Draw bounding box
                 if is_box_active:
-                    frame_manipulation.draw_bounding_box(boxes, people, frame)
+                    frame_manipulation.draw_bounding_box(boxes, confidences, people, frame)
 
                 # Define ROI
                 if create_roi:
@@ -127,8 +129,7 @@ class Detection:
         cv2.destroyAllWindows()
 
     @staticmethod
-    def detection_object(net, output_layers, boxes, threshold, frame):
-        confidences = []
+    def detection_object(net, output_layers, boxes, confidences, threshold, frame):
         height, width, channels = frame.shape
 
         # detecting objects reduce 416 to 320
