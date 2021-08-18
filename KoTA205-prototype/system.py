@@ -7,7 +7,7 @@ from user_interface import UserInterface
 def define_threshold(layout):
 
     # Create the window and show it without the plot
-    window = sg.Window("Main Window", layout)
+    window = sg.Window("Threshold", layout)
 
     while True:
         event, values = window.read()
@@ -22,6 +22,10 @@ def define_threshold(layout):
 
             if threshold_value < 0:
                 print("Sorry, your response must not be negative.")
+                continue
+
+            if threshold_value == 0:
+                print("Sorry, your response must not be zero.")
                 continue
 
             if threshold_value > 100:

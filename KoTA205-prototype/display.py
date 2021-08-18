@@ -17,7 +17,7 @@ class Display:
 
             cv2.line(img=frame_show, pt1=pts[0], pt2=pts[i + 1], color=(255, 0, 0), thickness=2)
 
-        cv2.imshow('system', frame_show)
+        cv2.imshow('Video', frame_show)
 
     @staticmethod
     def show_fps(frame_id, frame):
