@@ -48,5 +48,5 @@ class Report:
         # Let us Create an object
         logger = logging.getLogger()
         # Now we are going to Set the threshold of logger to DEBUG
-        logger.setLevel(logging.DEBUG)
+        logger.setLevel(logging.WARNING)
         logger.warning(log_message)

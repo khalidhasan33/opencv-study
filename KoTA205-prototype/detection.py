@@ -9,8 +9,8 @@ from report import Report
 from roi import Roi
 
 # Path definition
-video_path = r'C:\Users\User\Documents\Git\opencv-study\KoTA205-prototype\resource\15m-footage.mp4'
-yolo_weight_path = r'C:\Users\User\Documents\Git\opencv-study\KoTA205-prototype\yolo\yolov4-obj_final.weights'
+video_path = r'C:\Users\User\Documents\Git\opencv-study\KoTA205-prototype\resource\istockphoto-1170223090-640_adpp_is.mp4'
+yolo_weight_path = r'C:\Users\User\Documents\Git\opencv-study\KoTA205-prototype\yolo\yolov4-obj_final_sidang.weights'
 yolo_cfg_path = r'C:\Users\User\Documents\Git\opencv-study\KoTA205-prototype\yolo\yolov4-obj.cfg'
 image_path = r'C:\Users\User\Documents\Git\opencv-study\KoTA205-prototype\crowd-image'
 log_path = r'C:\Users\User\Documents\Git\opencv-study\KoTA205-prototype\crowd-log'
@@ -48,7 +48,7 @@ class Detection:
         layer_names = net.getLayerNames()
         output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
         # Set window
-        window = sg.Window("Crowd detection system ", layout, size=(300, 380), resizable=False, finalize=True)
+        window = sg.Window("Kontrol", layout, size=(300, 380), resizable=False, finalize=True)
 
         # Read until video is completed
         while video_cap.isOpened():
@@ -152,7 +152,7 @@ class Detection:
                     h = int(detection[3] * height)
                     x = int(center_x - w / 2)
                     y = int(center_y - h / 2)
-
+                    # print(confidence)
                     # put all rectangle areas
                     boxes.append([x, y, w, h])
                     # how confidence was that object detected and show that percentage

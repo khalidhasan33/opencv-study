@@ -18,7 +18,7 @@ class Roi:
             event = window.read(timeout=20)
             status_roi = str(event)
             # Create windows and bind windows to callback functions
-            cv2.setMouseCallback('system', Roi.select_roi, pts)
+            cv2.setMouseCallback('Video', Roi.select_roi, pts)
             Roi.draw_roi(pts, frame)
 
             if status_roi == "('-FINISH-', {})" and (len(pts) >= 4 or len(pts) == 0):
@@ -40,7 +40,7 @@ class Roi:
 
             if status_roi == "('-RESET-', {})":
                 pts.clear()
-                cv2.imshow('system', frame)
+                cv2.imshow('Video', frame)
 
     @staticmethod
     def draw_roi(pts, frame):
@@ -55,7 +55,7 @@ class Roi:
                 cv2.circle(img2, pts[i], 5, (0, 0, 255), -1)  # x ,y is the coordinates of the mouse click place
                 cv2.line(img=img2, pt1=pts[i], pt2=pts[i + 1], color=(255, 0, 0), thickness=2)
 
-        cv2.imshow('system', img2)
+        cv2.imshow('Video', img2)
 
     def select_roi(self, x, y, flags, pts):
 
